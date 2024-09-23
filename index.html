@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus Hunt Name</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            max-width: 600px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bonus Hunt</h1>
+        <form id="createHuntForm">
+            <input type="text" id="huntName" placeholder="Enter Hunt Name" required>
+            <button type="submit">Create</button>
+        </form>
+        <div id="huntLink"></div>
+    </div>
+
+    <!-- Firebase and Firestore SDKs -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCMTlO67kX31ar42qyMu1uObePZcJ3rXUk",
+            authDomain: "bonushunt-37493.firebaseapp.com",
+            projectId: "bonushunt-37493",
+            storageBucket: "bonushunt-37493.appspot.com",
+            messagingSenderId: "12087076819",
+            appId: "1:12087076819:web:56de76ba911c5dd87c3126"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Handle form submission
+        document.getElementById('createHuntForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const huntName = document.getElementById('huntName').value;
+
+            try {
+                // Add hunt to Firestore
+                const docRef = await addDoc(collection(db, "hunts"), {
+                    name: huntName,
+                    createdAt: serverTimestamp(),
+                    bonuses: []
+                });
+
+                // Redirect to the hunt page
+                window.location.href = `hunt.html?huntId=${docRef.id}`;
+            } catch (error) {
+                console.error("Error adding document: ", error);
+            }
+        });
+    </script>
+</body>
+</html>

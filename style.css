@@ -1,0 +1,164 @@
+/* General Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.container {
+    max-width: 900px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.8em;
+}
+
+input, button {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1.1em;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#bonusForm input {
+    width: calc(30% - 12px);
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul li {
+    background-color: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Dark Mode Styling */
+body.dark-mode {
+    background-color: #333;
+    color: #f0f2f5;
+}
+
+body.dark-mode .container {
+    background-color: #444;
+}
+
+body.dark-mode h1, body.dark-mode h2, body.dark-mode input, body.dark-mode button {
+    color: #f0f2f5;
+    background-color: #555;
+    border-color: #555;
+}
+
+body.dark-mode button:hover {
+    background-color: #0069d9;
+}
+
+body.dark-mode ul li {
+    background-color: #555;
+}
+
+/* Dark Mode Switch */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.theme-switch {
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    position: relative;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-switch .slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.theme-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.theme-switch input:checked + .slider {
+    background-color: #4caf50;
+}
+
+.theme-switch input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    input, button {
+        width: 100%;
+    }
+    
+    ul li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #bonusForm input {
+        width: 100%;
+    }
+}

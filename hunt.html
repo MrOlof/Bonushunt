@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus Hunt</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        h1, h2 {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 12px;
+            margin-bottom: 20px;
+            width: calc(50% - 24px);
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Ensure the label is above the input field */
+        #startAmountSection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #startAmountSection label {
+            margin-bottom: 5px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        /* Hide hunt phase initially */
+        .hunt-phase {
+            display: none;
+        }
+
+        .hunt-phase.active {
+            display: block;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .stat h3 {
+            font-size: 1.5em;
+            color: #007bff;
+        }
+
+        .stat p {
+            font-size: 1.2em;
+        }
+
+        .progress {
+            font-size: 1.4em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .big-number {
+            font-size: 2.5em;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .hunt-complete-message {
+            font-size: 2em;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        /* Scoreboard styles */
+        #scoreboardContainer {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #scoreboardContainer h3 {
+            margin-bottom: 10px;
+        }
+
+        #scoreboard {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        #scoreboard li {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+        }
+
+        /* Hide the "Create New Hunt" button initially */
+        #newHuntBtn {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        /* Adjust responsiveness for smaller devices */
+        @media (max-width: 768px) {
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="addPhase">
+        <h1 id="huntName">Bonus Hunt</h1>
+
+        <div id="startAmountSection">
+            <label for="startAmount">Enter Start Amount:</label>
+            <input type="number" id="startAmount" required>
+        </div>
+
+        <div id="bonusForm">
+            <h2>Add a Bonus</h2>
+            <div>
+                <input type="text" id="game" placeholder="Game" required>
+                <input type="number" id="betSize" placeholder="Bet Size" required>
+                <button id="addBonusBtn">Add Bonus</button>
+            </div>
+        </div>
+
+        <div id="startHuntSection">
+            <button id="startHuntBtn">Start the Hunt</button>
+        </div>
+
+        <h2>Bonuses</h2>
+        <ul id="bonusList"></ul>
+    </div>
+
+    <!-- Hunt Phase (Initially Hidden) -->
+    <div class="container hunt-phase" id="huntPhase">
+        <h1>It's Hunt Time!</h1>
+        <h2 class="progress">0 out of <span id="totalBonuses">0</span> bonuses played, <span id="remainingBonuses">0</span> remain</h2>
+
+        <div class="stats-container">
+            <div class="stat">
+                <h3>Average Multiplier (X)</h3>
+                <p class="big-number" id="avgMultiplier">N/A</p>
+            </div>
+            <div class="stat">
+                <h3>Total Profit/Loss</h3>
+                <p class="big-number" id="totalProfit">N/A</p>
+            </div>
+            <div class="stat">
+                <h3>Break-Even X Needed</h3>
+                <p class="big-number" id="breakEvenX">N/A</p>
+            </div>
+        </div>
+
+        <!-- This section will display one game at a time -->
+        <div id="gamePlaySection">
+            <h2><span id="currentGameName"></span></h2>
+            <p>Bet Size: <span id="currentBetSize"></span></p>
+            <input type="number" id="currentGameResult" placeholder="Enter result">
+            <button id="nextGameBtn">Next Game</button>
+        </div>
+
+        <!-- Scoreboard Section -->
+        <div id="scoreboardContainer">
+            <h3>Scoreboard (Ranked by Multiplier)</h3>
+            <ul id="scoreboard"></ul>
+        </div>
+
+        <!-- Completion Section -->
+        <div class="completion-buttons">
+            <button id="newHuntBtn">Create New Hunt</button>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
