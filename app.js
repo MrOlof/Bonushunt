@@ -4,12 +4,12 @@ import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from "https://www.gs
 
 // Your Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyCMTlO67kX31ar42qyMu1uObePZcJ3rXUk",
-  authDomain: "bonushunt-37493.firebaseapp.com",
-  projectId: "bonushunt-37493",
-  storageBucket: "bonushunt-37493.appspot.com",
-  messagingSenderId: "12087076819",
-  appId: "1:12087076819:web:56de76ba911c5dd87c3126"
+  apiKey: "API KEY",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
 
 // Initialize Firebase and Firestore
