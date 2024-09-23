@@ -1,1 +1,1 @@
-# Bonushunt
+# Simple Bonus hunt tracker
